@@ -25,9 +25,10 @@ Button::~Button()
 {
 }
 
+
 bool Button::button_pressed(int interval)
 {
-
+  bool output = 0;
   int readState = digitalRead(pinNum);
 
   if (readState == last_button_state && (button_active == false))
@@ -45,49 +46,12 @@ bool Button::button_pressed(int interval)
 
     if (millis() - press_time >= debounce_delay)
     {
-      unsigned long time_diff = release_time - press_time;
-      if (interval == 0)
-      {        
-        if (time_diff > 0)
-        {
-          press_time = 0;
-          release_time = 0;
-          Serial.println("short");
-          return 1;
-        }
-        else
-        {
-          press_time = 0;
-          release_time = 0;
-          Serial.println("not short");
-          return 1;
-        }
-      }
-      else if (interval > 0)
-      {
-
-        if ((time_diff <= interval) && (time_diff > 0))
-        {
-          press_time = 0;
-          release_time = 0;
-          Serial.println("not long");
-          return 0;
-        }
-        else if (time_diff > interval && (time_diff > 0))
-        {
-          press_time = 0;
-          release_time = 0;
-          Serial.println("long");
-          return 1;
-        }
-        else
-        {
-          Serial.println("not not long");
-          return 0;
-        }
-      }
+      unsigned long time_diff = release_time - press_time < 0 ? 0 : release_time - press_time; 
+      output = time_diff > interval ? 1 : 0;
+      press_time = 0;
+      release_time = 0;
     }
   }
-  return 0;
+  return output;
 }
 
