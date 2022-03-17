@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
 #include <ESP8266WiFiMulti.h>
 #include <Hash.h>
 #include <SocketIOclient.h>
