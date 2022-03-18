@@ -7,25 +7,30 @@
 #include "GameStyle.hpp"
 #include "ExtendClassicGame.hpp"
 #include "RandomShotGame.hpp"
+#include "GameSettings.hpp"
 
 class Game
 {
     public:
         Game(GameStyle style);
+        Game(GameSettings settings);
         void addPlayer(unsigned int id);
         void playingPlayerScoredPoints(unsigned int points);
         void processGame();
-        std::string gameOutput();
+        GameSettings outputGame();
         bool isEnd();
         void nextPlayer();
     private:
+        GameStyle mStyle;
         std::deque<Player> mPlayers;
         std::deque<Player> mWinners;
         std::unique_ptr<ModeGame> mGameMode;
 };
 
 Game::Game(GameStyle style)
-: mPlayers()
+: mStyle(style)
+, mPlayers()
+, mWinners()
 , mGameMode(nullptr)
 {
     switch(style)
@@ -40,6 +45,14 @@ Game::Game(GameStyle style)
             mGameMode = std::make_unique<RandomShotGame>();
             break;
     }
+}
+
+Game::Game(GameSettings settings)
+{
+    Game(settings.style);
+    mGameMode->setAttemps(settings.currentPlayerAttemps);
+    mPlayers = settings.players;
+    mWinners = settings.winners;
 }
 
 void Game::addPlayer(unsigned int id)
@@ -67,9 +80,15 @@ void Game::processGame()
     }
 }
 
-std::string Game::gameOutput()
+GameSettings Game::outputGame()
 {
-    return "";
+    GameSettings settings;
+    settings.style = mStyle;
+    settings.currentPlayerAttemps = mGameMode->getAttemps();
+    settings.players = mPlayers;
+    settings.winners = mWinners;
+
+    return settings;
 }
 
 bool Game::isEnd()

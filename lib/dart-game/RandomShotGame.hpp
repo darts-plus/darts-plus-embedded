@@ -18,16 +18,15 @@ class RandomShotGame : public ModeGame
         unsigned int generateRandomNumber();
     private:
         unsigned int mRandomShot;
-        unsigned int mAttems;
 };
 
 RandomShotGame::RandomShotGame()
-: mAttems(3)
-, mRandomShot(0)
+: mRandomShot(0)
 {
     // this old form is only in v.1
     srand((unsigned)time(NULL));
     mRandomShot = generateRandomNumber();
+    ModeGame::setAttemps(3);
 }
 
 Player RandomShotGame::createPlayer(unsigned int id) const
@@ -37,7 +36,7 @@ Player RandomShotGame::createPlayer(unsigned int id) const
 
 bool RandomShotGame::isNextPlayer() const
 {
-    return mAttems == 0;
+    return ModeGame::getAttemps() == 0;
 }
 
 void RandomShotGame::processPlayerScore(Player& player, unsigned int score)
@@ -48,7 +47,7 @@ void RandomShotGame::processPlayerScore(Player& player, unsigned int score)
         mRandomShot = generateRandomNumber();
     }
 
-    --mAttems;
+    ModeGame::setAttemps(ModeGame::getAttemps() - 1);
 }
 
 bool RandomShotGame::isPlayerWin(const Player& player) const
@@ -58,7 +57,7 @@ bool RandomShotGame::isPlayerWin(const Player& player) const
 
 void RandomShotGame::nextRound()
 {
-    mAttems = 3;
+    ModeGame::setAttemps(3);
     mRandomShot = generateRandomNumber();
 }
 

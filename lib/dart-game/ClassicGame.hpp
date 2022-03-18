@@ -11,13 +11,12 @@ class ClassicGame : public ModeGame
         virtual void processPlayerScore(Player& player, unsigned int score);
         virtual bool isPlayerWin(const Player& player) const;
         virtual void nextRound();
-    private:
-        unsigned int mAttems;
 };
 
 ClassicGame::ClassicGame()
-: mAttems(3)
-{ }
+{ 
+    ModeGame::setAttemps(3);
+}
 
 Player ClassicGame::createPlayer(unsigned int id) const
 {
@@ -26,7 +25,7 @@ Player ClassicGame::createPlayer(unsigned int id) const
 
 bool ClassicGame::isNextPlayer() const
 {
-    return mAttems == 0;
+    return ModeGame::getAttemps() == 0;
 }
 
 void ClassicGame::processPlayerScore(Player& player, unsigned int score)
@@ -34,11 +33,11 @@ void ClassicGame::processPlayerScore(Player& player, unsigned int score)
     if (player.points >= score)
     {
         player.points -= score;
-        --mAttems;
+        ModeGame::setAttemps(ModeGame::getAttemps() - 1);
     }
     else
     {
-        mAttems = 0;
+        ModeGame::setAttemps(0);
     }
 }
 
@@ -49,6 +48,6 @@ bool ClassicGame::isPlayerWin(const Player& player) const
 
 void ClassicGame::nextRound()
 {
-    mAttems = 3;
+    ModeGame::setAttemps(3);
 }
   
