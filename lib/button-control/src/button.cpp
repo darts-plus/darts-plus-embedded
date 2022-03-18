@@ -19,24 +19,24 @@ Button::Button(int buttonNum)
   press_time = 0;
   release_time = 0;
   button_active = false;
+
 }
 
 Button::~Button()
 {
 }
 
-
-bool Button::button_pressed(int interval)
+Press Button::button_pressed()
 {
-  bool output = 0;
+  Press output = NOT_PRESSED;
   int readState = digitalRead(pinNum);
 
-  if (readState == last_button_state && (button_active == false))
+  if (readState == high_button_state && (button_active == false))
   {
     press_time = millis();
     button_active = true;
   }
-  else if ((readState != last_button_state) && (button_active == true))
+  else if ((readState != high_button_state) && (button_active == true))
   {
     release_time = millis();
     button_active = false;
@@ -47,11 +47,12 @@ bool Button::button_pressed(int interval)
     if (millis() - press_time >= debounce_delay)
     {
       unsigned long time_diff = release_time - press_time < 0 ? 0 : release_time - press_time; 
-      output = time_diff > interval ? 1 : 0;
+      output = time_diff > long_press ? PRESSED_LONG :
+              ((time_diff > medium_press) && (time_diff <= long_press)) ? PRESSED_MEDIUM :
+              ((time_diff > 0) && (time_diff <= medium_press)) ? PRESSED_SHORT : NOT_PRESSED;
       press_time = 0;
       release_time = 0;
     }
   }
   return output;
 }
-
