@@ -48,8 +48,8 @@ Game::Game(GameStyle style)
 }
 
 Game::Game(GameSettings settings)
+: Game(settings.style)
 {
-    Game(settings.style);
     mGameMode->setAttemps(settings.currentPlayerAttemps);
     mPlayers = settings.players;
     mWinners = settings.winners;
@@ -72,6 +72,7 @@ void Game::processGame()
     {
         mWinners.push_back(playingPlayer);
         mPlayers.pop_front();
+        mGameMode->nextRound();
     }
     if (mGameMode->isNextPlayer())
     {
@@ -101,4 +102,5 @@ void Game::nextPlayer()
     auto& player = mPlayers.front();
     mPlayers.pop_front();
     mPlayers.push_back(player);
+    mGameMode->nextRound();
 }

@@ -39,8 +39,8 @@ nlohmann::json GameSettings::output()
 
 void GameSettings::input(nlohmann::json in)
 {
-    style = in.at("style").get<GameStyle>();
-    currentPlayerAttemps = in.contains("currentPlayerAttemps") ? in.at("currentPlayerAttemps").get<unsigned int>() : 0;
-    players = in.at("players");
+    style = in.contains("style") ? in.at("style") : GameStyle::Classic;
+    currentPlayerAttemps = in.contains("currentPlayerAttemps") ? in.at("currentPlayerAttemps") : 0;
+    players = in.contains("players") ? in.at("players") : std::deque<Player>();
     winners = in.contains("winners") ? in.at("winners") : std::deque<Player>();
 }
