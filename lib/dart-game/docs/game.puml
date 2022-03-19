@@ -18,17 +18,19 @@ class GameStyle <<(E, #00FF00) Enum >>
 
 class Game
 {
-    + Game(GameStyle style)
+    + Game(GameStyle)
+    + Game(GameSettings)
     + addPlayer(id) : void
     + playingPlayerScoredPoints(points) : void
     + processGame() : void
-    + outputGameState() : json
+    + outputGameState() : GameSettings
     + isEnd() : bool 
     + nextPlayer() : void
 
     - mPlayers : queue
     - mWinners : queue
-    - mModeGame: ModeGame*
+    - mModeGame : ModeGame*
+    - mStyle : GameStyle
 }
 
 Player --* "inf" Game
@@ -41,6 +43,8 @@ class ModeGame << (B, #FF0000) Base >>
     + processPlayerScore(&player, score) : void
     + isPlayerWin(player) : bool
     + nextRound() : void
+    + setAttemps(unsigned int attemps) : void
+    + getAttemps() const : unsigned int
 }
 
 Player ..> ModeGame
@@ -54,8 +58,6 @@ class ClassicGame extends ModeGame
     + processPlayerScore(&player, score) : void
     + isPlayerWin(player) : bool
     + nextRound() : void
-
-    - mAttemps : uint
 }   
 
 class ExtendClassicMode extends ClassicGame
@@ -76,8 +78,20 @@ class RandomShotMode extends ModeGame
     - generateRandomNumber() : uint
 
     - mRandomShot : uint
-    - mAttemps : uint
 }
 
+class GameSettings
+{
+    + style : GameStyle
+    + currentPlayerAttemps : unsigned int
+    + players : std::deque<Player>
+    + winners : std::deque<Player>
+
+    + GameSettings()
+    + output() : nlohmann::json
+    + input(nlohmann::json) : void 
+}
+
+GameSettings ..> Game
 
 @enduml
