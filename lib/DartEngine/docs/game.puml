@@ -1,0 +1,99 @@
+@startuml game
+
+!define DARKBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+class Player <<(S, #FFFF00) Struct >>
+{
+    + id : uint
+    + points : uint
+}
+
+class GameStyle <<(E, #00FF00) Enum >>
+{
+    Classic
+    ExtendClassic
+    RandomShot
+}
+
+class Game
+{
+    + Game()
+    + Game(GameStyle)
+    + Game(GameSettings)
+    + addPlayer(id) : void
+    + playingPlayerScoredPoints(points) : void
+    + processGame() : void
+    + outputGame() : GameSettings
+    + isEnd() : bool 
+    + nextPlayer() : void
+
+    - mPlayers : queue
+    - mWinners : queue
+    - mModeGame : ModeGame*
+    - mStyle : GameStyle
+}
+
+Player --* "inf" Game
+GameStyle ..> Game
+
+class ModeGame << (B, #FF0000) Base >>
+{
+    + createPlayer(id) : Player
+    + isNextPlayer() : bool 
+    + processPlayerScore(&player, score) : void
+    + isPlayerWin(player) : bool
+    + nextRound() : void
+    + setAttemps(unsigned int attemps) : void
+    + getAttemps() const : unsigned int
+}
+
+Player ..> ModeGame
+ModeGame --* "1" Game
+
+class ClassicGame extends ModeGame
+{
+    + ClassicGame()
+    + createPlayer(id) : Player
+    + isNextPlayer() : bool 
+    + processPlayerScore(&player, score) : void
+    + isPlayerWin(player) : bool
+    + nextRound() : void
+}   
+
+class ExtendClassicMode extends ClassicGame
+{
+    + ExtendClassicGame();
+    + Player createPlayer(id) : Player
+}
+
+class RandomShotMode extends ModeGame
+{
+    + RandomShotMode()
+    + createPlayer(id) : Player
+    + isNextPlayer() : bool 
+    + processPlayerScore(&player, score) : void
+    + isPlayerWin(player) : bool
+    + nextRound() : void
+
+    - generateRandomNumber() : uint
+
+    - mRandomShot : uint
+}
+
+class GameSettings
+{
+    + style : GameStyle
+    + currentPlayerAttemps : unsigned int
+    + players : std::deque<Player>
+    + winners : std::deque<Player>
+
+    + GameSettings()
+    + GameSettings(nlohmann::json)
+    + output() : nlohmann::json
+    + input(nlohmann::json) : void 
+}
+
+GameSettings ..> Game
+
+@enduml
