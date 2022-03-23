@@ -25,19 +25,19 @@ void loop() {
       case DISABLED :
         break ;
       case LOGO :
-        display.oled->clearDisplay();
+        display.clear_display();
         display.logo_display();
-        display.oled->display();
+        display.show_display();   
         break ;
       case SCORE :
         display.clear_display();
         display.score_display(String("Jan Pawel"), score, throws);
-        display.oled->display();      // Show initial text
+        display.show_display();       // Show initial text
         break ;
       case MENU :
         display.clear_display();
-        display.menu_display(cursor);
-        display.oled->display();      // Show initial text
+        display.menu_display(cursor, doublein, doubleout, players);
+        display.show_display();      // Show initial text
         break ;
   }
 }
