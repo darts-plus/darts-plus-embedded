@@ -1,22 +1,13 @@
-#include <EEPROMex.h>
-#include <EEPROMVar.h>
+#include "Wifi.hpp"
 
 void setup()
 {
-  Serial.begin(9600); 
-  delay(100); 
-  EEPROMVar<float> eepromFloat(5.5);
-  EEPROMVar<double> eepromDouble(1.33356);
-  EEPROMVar<char> eepromChar('H');
-  eepromFloat.save(); 
-  eepromDouble.save();
-  eepromChar.save();
-  Serial.println(eepromFloat.getAddress());
-  Serial.println(eepromDouble.getAddress());
-  Serial.println(eepromChar.getAddress());
-  Serial.println(eepromFloat);
-  Serial.println(eepromDouble);
-  Serial.println(eepromChar);
+  Wifi wifi("PLAY-LTE-2020", "H&@#$DSFSDF!@#!@!@");
+  wifi.write();
+
+  Wifi test;
+  test.read();
+  test.print();
 }
 
 void loop()
