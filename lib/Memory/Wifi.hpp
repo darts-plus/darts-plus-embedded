@@ -4,6 +4,8 @@
 #include "Memorable.hpp"
 #include <ArduinoLog.h>
 
+const int SIZE = 32; 
+
 class Wifi : public Memorable {
 private:
   char ssid[SIZE];
@@ -18,12 +20,12 @@ public:
   }
 
   void read() {
-    EEPROM.readBlock<char>(START, ssid, SIZE);
-    EEPROM.readBlock<char>(SIZE, password, SIZE);
+    EEPROM.readBlock<char>(Memory::WIFI_START, ssid, SIZE);
+    EEPROM.readBlock<char>(Memory::WIFI_START + SIZE, password, SIZE);
   }
   void write() {
-    EEPROM.writeBlock<char>(START, ssid, SIZE);
-    EEPROM.writeBlock<char>(SIZE, password, SIZE);
+    EEPROM.writeBlock<char>(Memory::WIFI_START, ssid, SIZE);
+    EEPROM.writeBlock<char>(Memory::WIFI_START + SIZE, password, SIZE);
   }
 
   String get_ssid() {

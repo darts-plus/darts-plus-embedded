@@ -3,11 +3,13 @@
 #include <EEPROMex.h>
 #include <EEPROMVar.h>
 
-const int START = 0;
-const int SIZE = 32;
+namespace Memory {
+  const int WIFI_START = 0;
+}
+
 
 class Memorable {
 public:
-  virtual void read();
-  virtual void write();
+  virtual void read() = 0;
+  virtual void write() = 0;
 };
