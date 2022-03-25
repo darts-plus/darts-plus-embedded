@@ -64,7 +64,7 @@ void GameSettings::input(nlohmann::json in)
     } 
     if (in.contains("players"))
     {
-        players = in.at("players");
+        players = in.at("players").get<std::deque<Player>>();
     }
     else
     {
@@ -72,7 +72,7 @@ void GameSettings::input(nlohmann::json in)
     } 
     if (in.contains("winners"))
     {
-        winners = in.at("winners");
+        winners = in.at("winners").get<std::deque<Player>>();
     }
     else
     {
