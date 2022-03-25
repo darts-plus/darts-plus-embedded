@@ -4,7 +4,7 @@
 #include <EEPROMVar.h>
 
 namespace Memory {
-  const int WIFI_START = 0;
+  const int WIFI_START = 0x0;
 }
 
 
