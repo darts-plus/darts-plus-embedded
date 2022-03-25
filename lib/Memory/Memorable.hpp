@@ -1,7 +1,6 @@
 #pragma once
 
-#include <EEPROMex.h>
-#include <EEPROMVar.h>
+#include <EEPROM.h>
 
 namespace Memory {
   const int WIFI_START = 0x0;

@@ -10,6 +10,6 @@ Memory is a small library that read and write data from EEPROM like wifi ssid an
 ## Requiremnets
 * ArduinoLog(edited) [ArduinoLog(edited)](https://github.com/xHeler/Arduino-Log)
 
-## Tested for
-* Arduino UNO
+## Tested for 
+* ESP8266
 
