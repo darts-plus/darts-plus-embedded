@@ -18,10 +18,8 @@ public:
 
   void read() override;
   void write() override;
-
   const char* get_ssid() const;
   void set_ssid(char new_ssid[]);
-
   const char* get_password() const;
   void set_password(char new_password[]);
 

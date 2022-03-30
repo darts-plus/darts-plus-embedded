@@ -5,7 +5,7 @@ MemorableWifi::MemorableWifi(char new_ssid[], char new_password[]) {
     set_password(new_password);
   }
 
-void MemorableWifi::read() {
+void MemorableWifi::load() {
   EEPROM.begin(SIZE * 2);
   for (int i = 0; i < SIZE; i++) {
     ssid[i] = EEPROM.read(i);
@@ -13,16 +13,16 @@ void MemorableWifi::read() {
   }
 }
 
-void MemorableWifi::write() {
+void MemorableWifi::save() {
   EEPROM.begin(SIZE * 2);
   for (int i = 0; i < SIZE; i++) {
     EEPROM.write(i, ssid[i]);
     EEPROM.write(SIZE + i, password[i]);
   }
   if (EEPROM.commit()) {
-    //Log.infoln("class MemorableWifi | EEPROM successfully committed");
+    Log.infoln("class MemorableWifi | EEPROM successfully committed");
   } else {
-    //Log.fatalln("class MemorableWifi | ERROR! EEPROM commit failed");
+    Log.fatalln("class MemorableWifi | ERROR! EEPROM commit failed");
   }
 }
 

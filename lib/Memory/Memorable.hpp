@@ -2,13 +2,8 @@
 
 #include <EEPROM.h>
 
-namespace Memory {
-  const int WIFI_START = 0x0;
-}
-
-
 class Memorable {
 public:
-  virtual void read() = 0;
-  virtual void write() = 0;
+  virtual void load() = 0;
+  virtual void save() = 0;
 };
