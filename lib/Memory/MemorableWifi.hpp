@@ -7,10 +7,6 @@
 const int SIZE = 32; 
 
 class MemorableWifi : public Memorable {
-private:
-  char ssid[SIZE];
-  char password[SIZE];
-
 public:
   MemorableWifi() = default;
 
@@ -24,5 +20,7 @@ public:
   void set_password(char new_password[]);
 
   void print();
-
+private:
+  char ssid[SIZE];
+  char password[SIZE];
 };
