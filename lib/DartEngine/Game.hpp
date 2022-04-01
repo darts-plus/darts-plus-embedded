@@ -55,7 +55,7 @@ Game::Game(GameStyle style)
 Game::Game(GameSettings settings)
 : Game(settings.style)
 {
-    mGameMode->setAttemps(settings.currentPlayerAttemps);
+    mGameMode->getRound() = settings.round;
     mPlayers = settings.players;
     mWinners = settings.winners;
 }
@@ -90,7 +90,7 @@ GameSettings Game::outputGame()
 {
     GameSettings settings;
     settings.style = mStyle;
-    settings.currentPlayerAttemps = mGameMode->getAttemps();
+    settings.round = mGameMode->getRound();
     settings.players = mPlayers;
     settings.winners = mWinners;
 

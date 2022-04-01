@@ -6,16 +6,16 @@ class ClassicGame : public ModeGame
 {
     public:
         ClassicGame();
-        virtual Player createPlayer(unsigned int id) const;
-        virtual bool isNextPlayer() const;
-        virtual void processPlayerScore(Player& player, unsigned int score);
-        virtual bool isPlayerWin(const Player& player) const;
-        virtual void nextRound();
+        virtual Player createPlayer(unsigned int id) const override;
+        virtual bool isNextPlayer() const override;
+        virtual void processPlayerScore(Player& player, unsigned int score) override;
+        virtual bool isPlayerWin(const Player& player) const override;
+        virtual void nextRound() override;
 };
 
 ClassicGame::ClassicGame()
 { 
-    ModeGame::setAttemps(3);
+    nextRound();
 }
 
 Player ClassicGame::createPlayer(unsigned int id) const
@@ -25,7 +25,7 @@ Player ClassicGame::createPlayer(unsigned int id) const
 
 bool ClassicGame::isNextPlayer() const
 {
-    return ModeGame::getAttemps() == 0;
+    return ModeGame::getRound().attempts == 0;
 }
 
 void ClassicGame::processPlayerScore(Player& player, unsigned int score)
@@ -33,11 +33,13 @@ void ClassicGame::processPlayerScore(Player& player, unsigned int score)
     if (player.points >= score)
     {
         player.points -= score;
-        ModeGame::setAttemps(ModeGame::getAttemps() - 1);
+        ModeGame::getRound().scored_points += score;
+        ModeGame::getRound().attempts -= 1;
     }
     else
     {
-        ModeGame::setAttemps(0);
+        player.points += ModeGame::getRound().scored_points;
+        ModeGame::getRound().attempts = 0;
     }
 }
 
@@ -48,6 +50,7 @@ bool ClassicGame::isPlayerWin(const Player& player) const
 
 void ClassicGame::nextRound()
 {
-    ModeGame::setAttemps(3);
+    ModeGame::getRound().attempts = 3;
+    ModeGame::getRound().scored_points = 0;
 }
   
