@@ -1,0 +1,1 @@
+include json.hpp before Arduino.h, because Arduino makes define some of variables which is use in json.hpp
