@@ -1,12 +1,12 @@
 #include <DartEngine/Game.hpp>
 
 nlohmann::json save_settings = nlohmann::json::parse(R"({
-    "currentPlayerAttemps":2,
     "players":
         [
             {"id":1,"points":301},
             {"id":2,"points":301}
         ],
+    "round": {"attempts":2,"scored_points":12},
     "style":0,
     "winners":
         [
@@ -34,6 +34,7 @@ void loop()
         if (detectNextPlayerButton)
         {
             game.nextPlayer();
+            game.buttonDelay();
         }
         game.processGame();     //< Need this every loop
     }

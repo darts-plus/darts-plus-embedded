@@ -6,7 +6,7 @@ class ExtendClassicGame : public ClassicGame
 {
     public:
         ExtendClassicGame();
-        virtual Player createPlayer(unsigned int id) const;
+        virtual Player createPlayer(unsigned int id) const override;
 };
 
 ExtendClassicGame::ExtendClassicGame()

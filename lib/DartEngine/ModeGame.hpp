@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Player.hpp"
+#include "Round.hpp"
 
 class ModeGame
 {
@@ -10,8 +11,9 @@ class ModeGame
         virtual void processPlayerScore(Player& player, unsigned int score) = 0;
         virtual bool isPlayerWin(const Player& player) const = 0;
         virtual void nextRound() = 0;
-        void setAttemps(unsigned int attemps) { mAttemps = attemps; }
-        unsigned int getAttemps() const { return mAttemps; }
+        
+        Round& getRound() { return mRound; }
+        const Round& getRound() const { return mRound; }
     private:
-        unsigned int mAttemps;
+        Round mRound;
 };

@@ -62,7 +62,8 @@ void IRAM_ATTR GameService::left_button_service(){
       break ;
     case LOGO :
       break ;
-    case SCORE :      
+    case SCORE :    
+      this->game->buttonDelay();  
       this->game->nextPlayer();
       break ;
     case MENU :
@@ -133,7 +134,8 @@ void IRAM_ATTR GameService::right_button_service(){
       case LOGO :
         break ;
       case SCORE:
-          this->game->nextPlayer();
+        this->game->buttonDelay();
+        this->game->nextPlayer();
         break ;
       case MENU :
         switch (this->cursor){
@@ -198,7 +200,7 @@ void GameService::run(){
         gameOutput = this->game->outputGame();
 
         this->display.clear_display();
-        this->display.score_display(String("Player ") + String(gameOutput.players.front().id), gameOutput.players.front().points, gameOutput.currentPlayerAttemps);
+        this->display.score_display(String("Player ") + String(gameOutput.players.front().id), gameOutput.players.front().points, gameOutput.round.attempts);
         this->display.show_display();       // Show initial text
         break ;
       case MENU :

@@ -27,15 +27,25 @@ class Game
     + outputGame() : GameSettings
     + isEnd() : bool 
     + nextPlayer() : void
+    + buttonDelay() : void
+
+    * enum State {PLAY, STOP, NEXT_PLAYER};
 
     - mPlayers : queue
     - mWinners : queue
     - mModeGame : ModeGame*
     - mStyle : GameStyle
+    - mGameState : State
 }
 
 Player --* "inf" Game
 GameStyle ..> Game
+
+class Round <<(S, #FFFF00) Struct >>
+{
+    + attempts : uint
+    + scored_points : uint
+}
 
 class ModeGame << (B, #FF0000) Base >>
 {
@@ -44,12 +54,14 @@ class ModeGame << (B, #FF0000) Base >>
     + processPlayerScore(&player, score) : void
     + isPlayerWin(player) : bool
     + nextRound() : void
-    + setAttemps(unsigned int attemps) : void
-    + getAttemps() const : unsigned int
+    + getRound() : Round
+
+    - mRound : Round
 }
 
 Player ..> ModeGame
 ModeGame --* "1" Game
+Round --* "1" ModeGame
 
 class ClassicGame extends ModeGame
 {
@@ -84,7 +96,7 @@ class RandomShotMode extends ModeGame
 class GameSettings
 {
     + style : GameStyle
-    + currentPlayerAttemps : unsigned int
+    + round : Round
     + players : std::deque<Player>
     + winners : std::deque<Player>
 
@@ -95,5 +107,6 @@ class GameSettings
 }
 
 GameSettings ..> Game
+Round --* GameSettings
 
 @enduml
