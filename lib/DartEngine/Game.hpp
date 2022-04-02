@@ -106,6 +106,7 @@ void Game::processGame()
         {
             mGameState = State::STOP;
         }
+        nextPlayer();
     }
 }
 
@@ -146,6 +147,8 @@ void Game::buttonDelay()
             break;
         case State::STOP:
             mGameState = State::NEXT_PLAYER;
+            break;
+        default:
             break;
     }
 }

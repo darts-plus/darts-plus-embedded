@@ -23,8 +23,8 @@ void loop() {
         }
         if (detectNextPlayerButton)
         {
+            game.buttonDelay(); //< Must be before nextPlayer()
             game.nextPlayer();
-            game.buttonDelay();
         }
         game.processGame(); //< Need this every loop
     }
