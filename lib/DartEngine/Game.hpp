@@ -21,11 +21,20 @@ class Game
         GameSettings outputGame();
         bool isEnd();
         void nextPlayer();
+        void buttonDelay();
+    private:
+        enum class State
+        {
+            PLAY,
+            STOP,
+            NEXT_PLAYER
+        };
     private:
         GameStyle mStyle;
         std::deque<Player> mPlayers;
         std::deque<Player> mWinners;
         std::unique_ptr<ModeGame> mGameMode;
+        State mGameState;
 };
 
 Game::Game()
@@ -37,6 +46,7 @@ Game::Game(GameStyle style)
 , mPlayers()
 , mWinners()
 , mGameMode(nullptr)
+, mGameState(State::PLAY)
 {
     switch(style)
     {
@@ -67,7 +77,10 @@ void Game::addPlayer(unsigned int id)
 
 void Game::playingPlayerScoredPoints(unsigned int points)
 {
-    mGameMode->processPlayerScore(mPlayers.front(), points);
+    if (mGameState == State::PLAY)
+    {
+        mGameMode->processPlayerScore(mPlayers.front(), points);
+    }
 }
 
 void Game::processGame()
@@ -75,14 +88,24 @@ void Game::processGame()
     auto& playingPlayer = mPlayers.front();
     if (mGameMode->isPlayerWin(playingPlayer))
     {
-        mWinners.push_back(playingPlayer);
-        mPlayers.pop_front();
-        mGameMode->nextRound();
+        if (mGameState == State::PLAY)
+        {
+            mGameState = State::STOP;
+        }
+        if (mGameState == State::NEXT_PLAYER)
+        {
+            mWinners.push_back(playingPlayer);
+            mPlayers.pop_front();
+            mGameMode->nextRound();
+            mGameState = State::PLAY;
+        }
     }
     if (mGameMode->isNextPlayer())
     {
-        mGameMode->nextRound();
-        nextPlayer();
+        if (mGameState == State::PLAY)
+        {
+            mGameState = State::STOP;
+        }
     }
 }
 
@@ -104,8 +127,25 @@ bool Game::isEnd()
 
 void Game::nextPlayer()
 {
-    auto& player = mPlayers.front();
-    mPlayers.pop_front();
-    mPlayers.push_back(player);
-    mGameMode->nextRound();
+    if (mGameState == State::NEXT_PLAYER)
+    {
+        auto& player = mPlayers.front();
+        mPlayers.pop_front();
+        mPlayers.push_back(player);
+        mGameMode->nextRound();
+        mGameState = State::PLAY;
+    }
+}
+
+void Game::buttonDelay()
+{
+    switch (mGameState)
+    {
+        case State::PLAY:
+            mGameState = State::STOP;
+            break;
+        case State::STOP:
+            mGameState = State::NEXT_PLAYER;
+            break;
+    }
 }

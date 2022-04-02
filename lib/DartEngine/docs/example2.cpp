@@ -34,6 +34,7 @@ void loop()
         if (detectNextPlayerButton)
         {
             game.nextPlayer();
+            game.buttonDelay();
         }
         game.processGame();     //< Need this every loop
     }
