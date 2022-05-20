@@ -32,6 +32,7 @@ class ServerClient{
         StaticJsonDocument<SIZE_SETTINGS_JSON> ReadSettings(uint8_t *payload);
 
         void send_event(const String &event_name, const String &json, const String &name_space = "/");
+        void send_game_loop(const String &event_name, const String &json, const String &name_space = "/");
 
        public:
         inline static socketIOmessageType_t status;
@@ -45,6 +46,7 @@ class ServerClient{
         RequestError SendGame(const String &doc);
 
         void loop();
+        void send_message();
 };
 
 #endif

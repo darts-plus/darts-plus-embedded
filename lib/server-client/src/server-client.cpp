@@ -79,6 +79,12 @@ void ServerClient::send_event(const String &event_name, const String &json, cons
     socketIO.sendEVENT(out);
 }
 
+void ServerClient::send_game_loop(const String &event_name, const String &json, const String &name_space) {
+    String out = name_space + ",[\"" + event_name + "\"," + json + "]";
+    USE_SERIAL.printf("[WEBSOCKETIO] Sending: \n>>>==============\n%s\n==============<<<\n", out.c_str());
+    socketIO.sendEVENT(out);
+}
+
 RequestError ServerClient::SendGame(const String &doc) {
     send_event("game_loop", doc, "/esp");
     return RequestError_OK;
@@ -95,7 +101,7 @@ void ServerClient::event_callback(socketIOmessageType_t type, uint8_t *payload, 
             USE_SERIAL.printf("[IOc] Connected to url: %s\n", payload);
 
             // join default namespace (no auto join in Socket.IO V3)
-            socketIO.send(sIOtype_CONNECT, "/esp");
+            socketIO.send(sIOtype_CONNECT, "/gameLoop");
             // USE_SERIAL.printf("[WEBSOCKETIO] First connection message: %s.\n", out.c_str());
             break;
         case sIOtype_EVENT:
@@ -122,9 +128,33 @@ void ServerClient::event_callback(socketIOmessageType_t type, uint8_t *payload, 
 }
 
 void ServerClient::loop(){
+    String payload = String("{\"id\": 1, \"status\": 1, \"round\": 1, \"value\": 13,"
+                         " \"multiplier\": 1, \"throwingPlayerId\": 1, \"throwingUserId\": 1,"
+                         " \"players\": [{\"id\": 1, \"attempts\": 1, \"points\": 229, \"nick\": \"jj\"," 
+                         " \"board_id\": 4}, {\"id\": 2, \"nick\": \"jj\", \"board_id\": 4, \"attempts\": 5,"
+                         " \"points\": 259}]}");
     socketIO.loop();
     if(not connection_initialied and status == sIOtype_CONNECT){
         connection_initialied = true;
-        send_event("join_room", "{\"game_id\":" + String(game_id) + "}", "/esp");
+        game_id = 1; // todelete
+        send_event("join_room", "{\"game_id\":" + String(game_id) + ", \"is_esp\": true}", "/gameLoop");
+        send_event("game_loop_esp", payload, "/gameLoop");
     }
+    
+}
+
+void ServerClient::send_message(){
+    String payload = String("{\"id\": 1, \"status\": 1, \"round\": 1, \"value\": 11,"
+                         " \"multiplier\": 1, \"throwingPlayerId\": 1, \"throwingUserId\": 1,"
+                         " \"players\": [{\"id\": 1, \"attempts\": 1, \"points\": 229, \"nick\": \"jj\"," 
+                         " \"board_id\": 2}, {\"id\": 2, \"nick\": \"jj\", \"board_id\": 2, \"attempts\": 5,"
+                         " \"points\": 259}]}");
+    socketIO.loop();
+    send_event("game_loop_esp", payload, "/gameLoop");
+    // if(not connection_initialied and status == sIOtype_CONNECT){
+    //     connection_initialied = true;
+    //     game_id = 1; // todelete
+    //     send_event("game_loop_esp", payload, "/gameLoop");
+    // }
+    
 }
