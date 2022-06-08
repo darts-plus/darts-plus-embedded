@@ -2,13 +2,12 @@
 
 08.06.2022
 
-UATR:
+UATR
 zielony - TX
 Niebieski - RX
-
-Buttons:
-+
--
+Buttons
+"+"
+"-"
 Right
 Middle
 Left
