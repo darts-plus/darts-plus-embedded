@@ -1,0 +1,58 @@
+PINOUT
+led -> vcc
+sck -> d14
+sda -> d13
+a0 -> d10
+rst -> d16
+cs -> d15
+gnd -> gnd
+vcc -> vcc
+
+^this pinout above should be most recent and correct if i'm not mistaken
+
+FUNCTIONS
+-clear_display()-> no arguments, just clears screen.
+-menu_display()-> 
+    arguments:
+        -cursor -> enum from Game-services, contains information about hoovered position
+        -dbl_in -> bool that tells us if double in is selected or not
+        -dbl_out -> bool that tells us if double out is selected or not
+        -players -> int (i'm not sure, but isn't uint8_t better here?) that tells us what is the number of players.
+        * I need one more argument that gives me number of points, please do that
+
+    This function prints menu with given information. There's three states
+    of displaying one thing, one is when cursor is not hoovering over given position (black background, white text),
+    when it is hoovering over given position (light blue background, black text), and a state where position is selected 
+    to make changes (yellow background, black text).
+-score_display() ->
+    arguments:
+        -nickname -> string that contains information about player nick. It is later converted into const char* which is the only way lcd is able to print it on screen. 
+        -score -> It's just current number of points that given player needs to win.
+        -attempts -> number of remaining attempts this round.
+    This function prints current player score on screen.
+-select() -> no arguments, just switching selection from true to false or from false to true.
+-other functions will be described if added.
+
+
+TODO
+Remember to add POINTS to cursor enum and everything connected with this thing.
+I think changing number of points that player needs to get in order to win is pretty important.
+Make select and changing value functions work properly with
+game services (if you need them, if you are changing it somewhere else, comment them and ignore), I don't think you need go_back, scroll_down or scroll_up functions, but if you do, just make them work with game services.
+Check if nick is properly transformed from string -> const char*
+Check if there's no problems with current_pos -> cursor change (you 
+have to apply those changes to changing value functions).
+
+I'm not sure if there's a need of clear_display function since there's a function
+clearScreen but i think it's prettier with it.
+
+Don't touch commented functions print_main_menu and print_menu_temp,
+those are not required for now. Same with logo.
+
+Keep in mind there's three states of displaying one thing, one is when cursor is not hoovering over given position (black background, white text),
+when it is hoovering over given position (light blue background, black text), and a state where position is selected 
+to make changes (yellow background, black text).
+
+You can use win_animation function if you want, but it's not important.
+
+PS. If you need more info/help call me on my phone not mess.
