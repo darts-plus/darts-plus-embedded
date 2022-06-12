@@ -2,6 +2,7 @@
 
 #include "GameStyle.hpp"
 #include "Player.hpp"
+#include "Round.hpp"
 
 #include <deque>
 
@@ -10,7 +11,7 @@
 struct GameSettings
 {
     GameStyle style;
-    unsigned int currentPlayerAttemps;
+    Round round;
     std::deque<Player> players;
     std::deque<Player> winners;
 
@@ -22,7 +23,7 @@ struct GameSettings
 
 GameSettings::GameSettings()
 : style(GameStyle::Classic)
-, currentPlayerAttemps(0)
+, round({0, 0})
 , players()
 , winners()
 { }
@@ -37,7 +38,7 @@ nlohmann::json GameSettings::output()
 {
     nlohmann::json out;
     out["style"] = style;
-    out["currentPlayerAttemps"] = currentPlayerAttemps;
+    out["round"] = round;
     out["players"] = players;
     out["winners"] = winners;
 
@@ -54,17 +55,17 @@ void GameSettings::input(nlohmann::json in)
     {
         style = GameStyle::Classic;
     } 
-    if (in.contains("currentPlayerAttemps"))
+    if (in.contains("round"))
     {
-        currentPlayerAttemps = in.at("currentPlayerAttemps");
+        round = in.at("round");
     }
     else
     {
-        currentPlayerAttemps = 0;
+        round = {0, 0};
     } 
     if (in.contains("players"))
     {
-        players = in.at("players").get<std::deque<Player>>();
+        players = in.at("players");
     }
     else
     {
@@ -72,7 +73,7 @@ void GameSettings::input(nlohmann::json in)
     } 
     if (in.contains("winners"))
     {
-        winners = in.at("winners").get<std::deque<Player>>();
+        winners = in.at("winners");
     }
     else
     {

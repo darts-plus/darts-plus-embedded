@@ -9,11 +9,11 @@ class RandomShotGame : public ModeGame
 {
     public:
         RandomShotGame();
-        virtual Player createPlayer(unsigned int id) const;
-        virtual bool isNextPlayer() const;
-        virtual void processPlayerScore(Player& player, unsigned int score);
-        virtual bool isPlayerWin(const Player& player) const;
-        virtual void nextRound();
+        virtual Player createPlayer(unsigned int id) const override;
+        virtual bool isNextPlayer() const override;
+        virtual void processPlayerScore(Player& player, unsigned int score) override;
+        virtual bool isPlayerWin(const Player& player) const override;
+        virtual void nextRound() override;
     private:
         unsigned int generateRandomNumber();
     private:
@@ -25,8 +25,7 @@ RandomShotGame::RandomShotGame()
 {
     // this old form is only in v.1
     srand((unsigned)time(NULL));
-    mRandomShot = generateRandomNumber();
-    ModeGame::setAttemps(3);
+    nextRound();
 }
 
 Player RandomShotGame::createPlayer(unsigned int id) const
@@ -36,7 +35,7 @@ Player RandomShotGame::createPlayer(unsigned int id) const
 
 bool RandomShotGame::isNextPlayer() const
 {
-    return ModeGame::getAttemps() == 0;
+    return ModeGame::getRound().attempts == 0;
 }
 
 void RandomShotGame::processPlayerScore(Player& player, unsigned int score)
@@ -47,7 +46,7 @@ void RandomShotGame::processPlayerScore(Player& player, unsigned int score)
         mRandomShot = generateRandomNumber();
     }
 
-    ModeGame::setAttemps(ModeGame::getAttemps() - 1);
+    ModeGame::getRound().attempts -= 1;
 }
 
 bool RandomShotGame::isPlayerWin(const Player& player) const
@@ -57,7 +56,8 @@ bool RandomShotGame::isPlayerWin(const Player& player) const
 
 void RandomShotGame::nextRound()
 {
-    ModeGame::setAttemps(3);
+    ModeGame::getRound().scored_points = 0;
+    ModeGame::getRound().attempts = 3;
     mRandomShot = generateRandomNumber();
 }
 
