@@ -5,7 +5,7 @@
 
 #include <deque>
 
-#include "nlohmann/json.hpp"
+#include "json.hpp"
 
 struct GameSettings
 {
