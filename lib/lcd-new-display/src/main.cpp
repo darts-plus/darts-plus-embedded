@@ -2,7 +2,7 @@
 
 void setup(void)  
 {
-  Lcd display = Lcd();
+  // Lcd display = Lcd();
  // display.menu_display();
 }  
 

@@ -47,7 +47,7 @@ Lcd::Lcd(): ucg(A, CS, RESET)
 void Lcd::clear_display(){
   ucg.clearScreen(); 
 }
-void Lcd::menu_display(int cursor, bool dbl_in = false, bool dbl_out = false, int players = 2){ 
+void Lcd::menu_display(int cursor, bool dbl_in, bool dbl_out, int players){ 
   ucg.setFont(ucg_font_ncenB10_hf);	// do not use _tf for UCG_FONT_MODE_SOLID
   ucg.setFontMode(UCG_FONT_MODE_SOLID);
   ucg.setPrintPos(0, 15);
@@ -64,7 +64,7 @@ void Lcd::menu_display(int cursor, bool dbl_in = false, bool dbl_out = false, in
   ucg.setFont(ucg_font_ncenB10_hf);	// do not use _tf for UCG_FONT_MODE_SOLID
   ucg.setFontMode(UCG_FONT_MODE_SOLID);
   ucg.setPrintPos(130, 15);
-  ucg.print(points[points_index]);  // print given points
+  ucg.print(301);  // print given points
 
   ucg.setFont(ucg_font_ncenB10_hf);	// do not use _tf for UCG_FONT_MODE_SOLID
   ucg.setFontMode(UCG_FONT_MODE_SOLID);
@@ -319,43 +319,43 @@ void Lcd::score_display(String nickname, int score, int attempts){
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>> MAKE IT WORK WITH GAME SERVICES
 
-void Lcd::select(){
-  selected_pos = true ? selected_pos = false: selected_pos = true;
-}
+// void Lcd::select(){
+//   selected_pos = true ? selected_pos = false: selected_pos = true;
+// }
 
-void Lcd::change_value_up(){
-  if (current_pos == 3)
-  {
-    // dbl_in = true;
-  }else if (current_pos == 4)
-  {
-    // dbl_out = true;
-  }else if (current_pos == 1)
-  {
-    // points_index < 4 ? points_index++ : points_index;
-  }else if (current_pos == 2)
-  {
-    // players < 10 ? players++ : players;
-  } 
+// void Lcd::change_value_up(){
+//   if (current_pos == 3)
+//   {
+//     // dbl_in = true;
+//   }else if (current_pos == 4)
+//   {
+//     // dbl_out = true;
+//   }else if (current_pos == 1)
+//   {
+//     // points_index < 4 ? points_index++ : points_index;
+//   }else if (current_pos == 2)
+//   {
+//     // players < 10 ? players++ : players;
+//   } 
   
-}	
+// }	
 
-void Lcd::change_value_down(){
-  if (current_pos == 3)
-  {
-    // dbl_in = false;
-  }else if (current_pos == 4)
-  {
-    // dbl_out = false;
-  }else if (current_pos == 1)
-  {
-    // points_index > 0 ? points_index-- : points_index;
-  }else if (current_pos == 2)
-  {
-    // players > 1 ? players-- : players;
-  } 
+// void Lcd::change_value_down(){
+//   if (current_pos == 3)
+//   {
+//     // dbl_in = false;
+//   }else if (current_pos == 4)
+//   {
+//     // dbl_out = false;
+//   }else if (current_pos == 1)
+//   {
+//     // points_index > 0 ? points_index-- : points_index;
+//   }else if (current_pos == 2)
+//   {
+//     // players > 1 ? players-- : players;
+//   } 
   
-}	
+// }	
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // DO WE EVEN NEED THAT??
@@ -367,7 +367,7 @@ void Lcd::change_value_down(){
 
 
 // JUST SOME DISCO
-void Lcd::win_animation(std::string nickname){
+void Lcd::win_animation(String nickname){
   
   const char* nick = nickname.c_str();
   ucg.setFont(ucg_font_inr30_mr);

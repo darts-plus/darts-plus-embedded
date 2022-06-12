@@ -1,6 +1,5 @@
 #pragma once
 #include "Ucglib.h"
-#include<iostream>
 
 const int A = 10; 
 const int CS = 15;
@@ -19,8 +18,8 @@ public:
 
     Lcd();
     void clear_display();
-    void menu_display(int cursor, bool doublein = false, bool doubleout = false, int players = 2);
-    void score_display(std::string nickname, int score, int attempts);
+    void menu_display(int cursor, bool dbl_in = false, bool dbl_out = false, int players = 2);
+    void score_display(String nickname, int score, int attempts);
 private:
     //uint8_t current_pos;
     // bool selected_pos;
@@ -39,6 +38,6 @@ private:
     // void print_game_menu();
     // void print_main_menu();
     void go_back();
-    void win_animation(std::string nickname);
+    void win_animation(String nickname);
     
 };
