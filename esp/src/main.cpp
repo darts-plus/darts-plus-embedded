@@ -1,4 +1,4 @@
-#include "game-service/inc/GameService.h"
+#include "GameService.h"
 
 
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "nlohmann/json.hpp"
+#include "json.hpp"
 struct Player
 {
     unsigned int id;
